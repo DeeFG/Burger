@@ -1,3 +1,3 @@
 # Burger
 ## Burger Logger
-### MySQL, Node, Express, Handlebars and a homemade ORM 
+### MySQL, Node, Express, Handlebars and sequelize 
