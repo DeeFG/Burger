@@ -1,62 +1,77 @@
-var db = require("../models");
+
 var express = require('express');
 var router = express.Router();
+var db = require("../models");
+var bodyParser = require("body-parser");
 
-module.exports = function(app){
-    app.get("/api/burgers", function(req, res) {
-    // findAll returns all entries for a table when used with no options
-    db.Burger.findAll({}).then(function(dbBurger) {
-      // We have access to the todos as an argument inside of the callback function
-      res.json(dbBurger);
-     
-    });
+
+// show all the burger data in the database 
+router.get("/api/all", function(req,res){
+  db.Burgers.findAll().then(function(results){
+    res.json(results);
+  });
+});
+
+// get all the burgers in the database and render the index.handlebars page 
+router.get("/burgers", function(req,res){
+  db.Burgers.findAll().then(function(data){
+    var hbsObject = {Burgers : data};
+    res.render("index", hbsObject);    
+  });
+});
+
+// get route -> index
+router.get("/", function(req, res) {
+  res.redirect("/burgers");
+});
+
+// post route -> back to index
+router.post("/burgers/create", function(req,res){
+  db.Burgers.create({
+    burgerName : req.body.burgerName,
+    devour : false
+    }).then(function(result){
+      console.log(result);
+    res.redirect("/burgers");
+  });
+});
+
+
+// put route -> back to index
+router.put("/burgers/update", function(req,res){
+  var eaten = {
+    devour : 1
+  }
+  db.Burgers.update(eaten,{
+
+    where : {
+      id : req.body.burger_id
+    }
+  }).then(function(result){
+    console.log(result);
+    res.redirect("/");
   });
 
-  // POST route for saving a new todo
-  app.post("/api/burgers", function(req, res) {
-    // create takes an argument of an object describing the item we want to insert
-    // into our table. In this case we just we pass in an object with a text and
-    // complete property
-    db.Burger.create({
-      text: req.body.text,
-      devour: req.body.devour
-    }).then(function(dbBurger) {
-      // We have access to the new Burger as an argument inside of the callback function
-      res.json(dbBurger);
-    });
+});
+  
 
-  });
 
-  // DELETE route for deleting Burgers. We can get the id of the Burger to be deleted
-  // from req.params.id
-  app.delete("/api/burgers/:id", function(req, res) {
-    // Destroy takes in one argument: a "where object describing the Burgers we want to destroy
-    db.Burger.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
-      .then(function(dbBurger) {
-        res.json(dbBurger);
-      });
 
-  });
+module.exports = router;
 
-  // PUT route for updating Burgers. We can get the updated Burger data from req.body
-  app.put("/api/burgers", function(req, res) {
-    // Update takes in two arguments, an object describing the properties we want to update,
-    // and another "where" object describing the Burgers we want to update
-    db.Burger.update({
-      text: req.body.text,
-      devour: req.body.devour
-    }, {
-      where: {
-        id: req.body.id
-      }
-    })
-      .then(function(dbBurger) {
-        res.json(dbBurger);
-      });
 
-  });
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

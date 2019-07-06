@@ -12,23 +12,14 @@
 		<div class="col-md-4" id="burgers">
 			<ul class="list-group">
 				{{#each burgers}}
-					{{#unless this.devoured}}
+					{{#unless this.devour}}
 						<li class="list-group-item">
-							{{this.id}}. {{this.burger_name}}
+							{{this.id}}. {{this.burgerName}}
 
 							<form action="index/update/{{this.id}}?_method=PUT" method="POST" class="button-size">
-										<select class="chosen-select" id="dropdown" name="temp">
-											<option value></option>
-											<option value="rare">rare</option>
-											<option value="medium rare">medium rare</option>
-											<option value="medium">medium</option>
-											<option value="medium well">medium well</option>
-											<option value="well done">well done</option>
-										</select>
 										<input type="hidden" name="devour" value="1">
 										<button type="submit">Devour It!</button>
 								</form>
-
 						</li>
 					{{/unless}}
 				{{/each}}
@@ -39,10 +30,10 @@
 
 		<div class="col-md-4" id="eaten-burgers">
 			<ul class="list-group">
-				{{#each burgers}}
-					{{#if this.devoured}}
+				{{#each Burgers}}
+					{{#if this.devour}}
 						<li class="list-group-item" id="eaten-burger-li">
-								{{this.id}}. {{this.burger_name}} - {{this.Temperature.temp}}
+								{{this.id}}. {{this.burgerName}} 
 						</li>
 					{{/if}}
 				{{/each}}
@@ -53,7 +44,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<form class="create-update-form" method="POST" action="index/create">
-				<textarea class="form-control" id="burger-text-area" type="text" name="burger_name" placeholder="order new burger here"></textarea>
+				<textarea class="form-control" id="burger-text-area" type="text" name="burgerName" placeholder="order new burger here"></textarea>
 				<button type="submit" id="new-burger-button">Add Burger</button>
 			</form>
 		</div>

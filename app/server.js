@@ -24,7 +24,7 @@ app.use(express.static("public"));
 
 // Routes
 // =============================================================
- require("./controllers/api-routes.js")(app);
+var routes = require("./controllers/api-routes.js");
 
 // Starting our Express app
 // =============================================================
