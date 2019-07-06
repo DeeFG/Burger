@@ -1,17 +1,19 @@
 var db = require("../models");
+var express = require('express');
+var router = express.Router();
 
 module.exports = function(app){
-    app.get("/api/Burger", function(req, res) {
+    app.get("/api/burgers", function(req, res) {
     // findAll returns all entries for a table when used with no options
     db.Burger.findAll({}).then(function(dbBurger) {
       // We have access to the todos as an argument inside of the callback function
       res.json(dbBurger);
+     
     });
-
   });
 
   // POST route for saving a new todo
-  app.post("/api/Burger", function(req, res) {
+  app.post("/api/burgers", function(req, res) {
     // create takes an argument of an object describing the item we want to insert
     // into our table. In this case we just we pass in an object with a text and
     // complete property
@@ -27,7 +29,7 @@ module.exports = function(app){
 
   // DELETE route for deleting Burgers. We can get the id of the Burger to be deleted
   // from req.params.id
-  app.delete("/api/Burger/:id", function(req, res) {
+  app.delete("/api/burgers/:id", function(req, res) {
     // Destroy takes in one argument: a "where object describing the Burgers we want to destroy
     db.Burger.destroy({
       where: {
@@ -41,7 +43,7 @@ module.exports = function(app){
   });
 
   // PUT route for updating Burgers. We can get the updated Burger data from req.body
-  app.put("/api/Burger", function(req, res) {
+  app.put("/api/burgers", function(req, res) {
     // Update takes in two arguments, an object describing the properties we want to update,
     // and another "where" object describing the Burgers we want to update
     db.Burger.update({
