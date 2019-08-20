@@ -19,16 +19,16 @@ router.get("/api/allburgers", function (req, res) {
 router.post("/api/addburgers", function (req, res) {
     db.Burger.create({
         name:req.body.name,
-        devoured_state:req.body.devoured_state
+        devoured:req.body.devoured
     }).then(function (data) {
         res.json(data);
     })
 });
 
-router.put("/api/burgers/:id", function (req, res) {
+router.put("/api/updateburgers/:id", function (req, res) {
     
     db.Burger.update({
-        devoured_state:req.body.devoured_state
+        devoured:req.body.devoured
     },{
         where:{
             id:req.params.id

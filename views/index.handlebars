@@ -1,52 +1,42 @@
-<div class="container">
+<h1>Eat-Da-Burger!</h1>
 
-	<div class="row" id="image-row">
-		<div class="col-md-12" id="image-col">
-			{{!-- public folder is static --}}
-			<h1>Eat These Burgers!</h1>
-		</div>
-	</div>
-	{{!-- list of uneaten burgers --}}
-	<div class="row" id="burgers-div">
-		<div class="col-md-4" id="burgers">
-			<ul class="list-group">
-				{{#each burgers}}
-					{{#unless this.devour}}
-						<li class="list-group-item">
-							{{this.id}}. {{this.burgerName}}
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col s6">
+        {{#each burgers}}
+          {{#unless this.devoured}}
+            <div>
+              <form action="/burgers/{{this.id}}?_method=PUT" method="POST">
+                <button type="submit" class='burgerAvailable'> {{this.name}}</button>
+              </form>
+            </div>
+          {{/unless}}
+        {{/each}}
+      </div>
 
-							<form action="index/update/{{this.id}}?_method=PUT" method="POST" class="button-size">
-										<input type="hidden" name="devour" value="1">
-										<button type="submit">Devour It!</button>
-								</form>
-						</li>
-					{{/unless}}
-				{{/each}}
-			</ul>
-		</div>
+      <div class="col s6">
+        {{#each burgers}}
+          {{#if this.devoured}}
+            <div class='burgerEaten'>
+              <div>
+                {{this.name}}
+              </div>
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</main>
 
-		<div class="col-md-4"></div>
+<h2>Add A Burger Option</h2>
 
-		<div class="col-md-4" id="eaten-burgers">
-			<ul class="list-group">
-				{{#each Burgers}}
-					{{#if this.devour}}
-						<li class="list-group-item" id="eaten-burger-li">
-								{{this.id}}. {{this.burgerName}} 
-						</li>
-					{{/if}}
-				{{/each}}
-			</ul>
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<form class="create-update-form" method="POST" action="index/create">
-				<textarea class="form-control" id="burger-text-area" type="text" name="burgerName" placeholder="order new burger here"></textarea>
-				<button type="submit" id="new-burger-button">Add Burger</button>
-			</form>
-		</div>
-	</div>
-
+<div class="row">
+  <div class="col s12">
+    <form action="/burgers" method="POST">
+      <input type="text" id="name" name="name" placeholder="Uber Delicious Burger">
+      <button type="submit" class="addBurgerButton">Add The Burger</button>
+    </form>
+  </div>
 </div>
